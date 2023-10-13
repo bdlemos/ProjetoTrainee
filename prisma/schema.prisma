@@ -17,4 +17,23 @@ model User {
   password  String
   photo     String?
   role      String
+  songs     Song[]
+}
+
+model Artist {
+  id        Int      @id @default(autoincrement())
+  name      String
+  streams   Int
+  photo     String?
+  songs     Song[]
+}
+
+model Song {
+  id        Int      @id @default(autoincrement())
+  name      String
+  genre     String
+  album     String
+  artist    Artist   @relation(fields: [artistId], references: [id])
+  artistId  Int
+  listeners User[]
 }
