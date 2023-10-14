@@ -31,12 +31,26 @@ class SongService{
         return song;
     }
 
-    //read
-    async getAll(){ //devolve todas as músicas do banco
+    //READ
+    async getAll(){ 
         const songs = await prisma.song.findMany();
         
         return songs;
     }
+
+    /*
+    async getByAlbum(){ 
+        const songs = await prisma.song.findMany();
+        
+        return songs;
+    }
+
+    async getByArtist(){
+        const songs = await prisma.song.findMany();
+        
+        return songs;
+    }
+    */
 
     async delete(idInput: number){
         const song = await prisma.song.delete({
