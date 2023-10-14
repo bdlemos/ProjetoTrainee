@@ -30,6 +30,13 @@ async function main(){
         artistId: 2,
     } as Song);
 
+    const song3 = await addSong({
+        name: 'Baby',
+        genre: 'Pop',
+        album: 'Believe',
+        artistId: 3,
+    } as Song);
+
     await getAllSongs();
 }
 
