@@ -1,6 +1,24 @@
-import { User, Song } from "@prisma/client";
+import { User, Song,Artist } from "@prisma/client";
 import { addUser } from "./src/domains/User/controller/UserController";
 import { addSong, getAllSongs, removeSong, updateSong } from "./src/domains/Song/controller/songController";
+import { addArtist, getAllArtists, removeArtist, updateArtist } from "./src/domains/Artist/controller/ArtistController";
+
+
+const teste_artista = async () => {
+/*     await addArtist({
+        name: "Taylor Swift",
+        streams: 100,
+        photo: "teste",
+    } as Artist); */
+    await removeArtist(8);
+    await updateArtist({
+        id: 9,
+        name: "Taylor Swift",
+        streams: 1000,
+        photo: "teste",
+    } as Artist);
+     await getAllArtists();
+}
 
 async function main(){
     
@@ -43,4 +61,4 @@ async function main(){
     await getAllSongs();
 }
 
-main();
+teste_artista();
