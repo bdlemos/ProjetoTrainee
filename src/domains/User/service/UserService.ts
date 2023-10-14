@@ -14,6 +14,36 @@ class UserService{
         });
         return user;
     }
+} 
+  async update(body: User) {
+    const user = await prisma.user.update({
+        data: {
+        email: body.email,
+        password: body.password,
+        name: body.name,
+        photo: body.photo,
+        role: body.role,
+      },
+      where: {
+        id: body.id,
+      },
+    });
+    return user;
+  }
+
+  async getAll() {
+    const users = await prisma.user.findMany();
+    return users;
+  }
+
+  async delete(idInput: number) {
+    const user = await prisma.user.delete({
+      where: {
+        id: idInput,
+      },
+    });
+    return user;
+  }
 }
 
-export default new UserService;
+export default new UserService();
