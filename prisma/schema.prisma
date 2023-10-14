@@ -36,4 +36,5 @@ model Song {
   artist    Artist   @relation(fields: [artistId], references: [id])
   artistId  Int
   listeners User[]
+  @@unique([name, artistId])
 }
