@@ -1,4 +1,3 @@
-import prisma from "../../../../client/client";
 import { Song } from "@prisma/client";
 import SongService from "../service/SongService";
 
@@ -7,7 +6,7 @@ export async function addSong(data: Song){
         await SongService.create(data); 
         console.log("Sucesso!");
     } catch(error){ //fazer controle de erros depois
-    console.log("Erro: ", error);
+    console.log("Erro ao adicionar música.");
     }
 }
 
@@ -16,7 +15,7 @@ export async function getAllSongs(){
         const songs = await SongService.getAll(); 
         console.log(songs);
     } catch(error){ 
-    console.log("Erro: ", error);
+    console.log("Erro ao imprimir músicas.");
     }
 }
 
@@ -25,15 +24,15 @@ export async function updateSong(data: Song){
         await SongService.update(data); 
         console.log("Sucesso!");
     } catch(error){ 
-    console.log("Erro: ", error);
+    console.log("Erro ao atualizar música:", error);
     }
 }
 
-export async function deleteSong(idInput: number){
+export async function removeSong(id: number){
     try{
-        await SongService.delete(idInput); 
+        await SongService.delete(id); 
         console.log("Sucesso!");
     } catch(error){ 
-    console.log("Erro: ", error);
+    console.log("Erro ao remover música.");
     }
 }
