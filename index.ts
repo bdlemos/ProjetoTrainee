@@ -32,8 +32,7 @@ async function main(){
         genre: 'Pop',
         album: 'Believe',
         artistId: 3,
-    } as Song);
-    
+    } as Song);   
     /*
     const teste = await updateSong({ //erro
         id: 1,
@@ -41,6 +40,7 @@ async function main(){
     } as Song);
     */
 
+    await getAllSongs();
 }
 
 main();
