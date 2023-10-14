@@ -12,8 +12,16 @@ export async function addSong(data: Song){
 
 export async function getAllSongs(){
     try{
+        await SongService.getAll(); 
+    } catch(error){ 
+    console.log("Erro ao bucar músicas.");
+    }
+}
+
+export async function printAllSongs(){
+    try{
         const songs = await SongService.getAll(); 
-        console.log(songs);
+        console.log("As músicas são: ", songs);
     } catch(error){ 
     console.log("Erro ao imprimir músicas.");
     }
