@@ -1,6 +1,6 @@
 import { User, Song } from "@prisma/client";
 import { addUser } from "./src/domains/User/controller/UserController";
-import { addSong, getAllSongs, removeSong, updateSong } from "./src/domains/Song/controller/songController";
+import { addSong, getAllSongs, printAllSongs, removeSong, updateSong } from "./src/domains/Song/controller/songController";
 
 async function main(){
     
@@ -33,14 +33,14 @@ async function main(){
         album: 'Believe',
         artistId: 3,
     } as Song);   
-    /*
+
     const teste = await updateSong({ //erro
         id: 1,
-        name: 'Fragments of Time',
+        name: 'Giorgio by Moroder',
     } as Song);
-    */
 
-    await getAllSongs();
+
+    await printAllSongs();
 }
 
 main();
