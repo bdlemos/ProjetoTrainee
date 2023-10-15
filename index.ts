@@ -1,8 +1,7 @@
 import { User, Song,Artist } from "@prisma/client";
 import { addUser } from "./src/domains/User/controller/UserController";
-import { addSong, getAllSongs, printAllSongs, removeSong, updateSong } from "./src/domains/Song/controller/songController";
+import { addSong, getAllSongs, printAllSongs, removeSong, updateSong, printSongsByArtist, printSongByID } from "./src/domains/Song/controller/songController";
 import { addArtist, getAllArtists, removeArtist, updateArtist } from "./src/domains/Artist/controller/ArtistController";
-
 
 const teste_artista = async () => {
 /*     await addArtist({
@@ -22,6 +21,9 @@ const teste_artista = async () => {
 
 async function main(){
     
+    //TESTE ARTISTA
+    await teste_artista();
+
     //TESTE DAS FUNÇÕES DE USUÁRIO
     await addUser({
         email: "teste@gmail.com",
@@ -32,33 +34,35 @@ async function main(){
 
     //TESTE DAS FUNÇÕES DE MÚSICA
     const song1 = await addSong({
-        name: 'Fragments of Time',
-        genre: 'Eletônica',
-        album: 'Randon Acess Memories',
+        name: "Fragments of Time",
+        genre: "Eletônica",
+        album: "Randon Acess Memories",
         artistId: 1,
     } as Song);
 
     const song2 = await addSong({
-        name: 'Por Enquanto',
-        genre: 'MPB',
-        album: 'Cássia Eller',
+        name: "Por Enquanto",
+        genre: "MPB",
+        album: "Cássia Eller",
         artistId: 2,
     } as Song);
 
     const song3 = await addSong({
-        name: 'Baby',
-        genre: 'Pop',
-        album: 'Believe',
+        name: "Baby",
+        genre: "Pop",
+        album: "Believe",
         artistId: 3,
-    } as Song);   
-
-    const teste = await updateSong({ //erro
-        id: 1,
-        name: 'Giorgio by Moroder',
     } as Song);
 
+    const teste = await updateSong({
+        id: 7,
+        name: "Aerodynamic",
+        album: "Discovery"
+    } as Song);
+
+    const teste2 = await printSongsByArtist(1);
 
     await printAllSongs();
 }
 
-teste_artista();
+main();

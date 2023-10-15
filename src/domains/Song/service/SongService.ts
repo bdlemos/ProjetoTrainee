@@ -38,19 +38,23 @@ class SongService{
         return songs;
     }
 
-    /*
-    async getByAlbum(){ 
-        const songs = await prisma.song.findMany();
-        
+    async getByArtist(idInput: number){
+        const songs = await prisma.song.findMany({
+            where: {
+                artistId: idInput,
+            }
+        });
         return songs;
     }
 
-    async getByArtist(){
-        const songs = await prisma.song.findMany();
-        
-        return songs;
+    async getByID(idInput: number){
+        const song = await prisma.song.findUnique({
+            where: {
+                id: idInput,
+            }
+        });
+        return song;
     }
-    */
 
     async delete(idInput: number){
         const song = await prisma.song.delete({
@@ -64,3 +68,7 @@ class SongService{
 }
 
 export default new SongService;
+
+function getById(idInput: any, number: any) {
+    throw new Error("Function not implemented.");
+}
