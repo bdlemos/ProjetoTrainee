@@ -28,6 +28,19 @@ export async function getAllUser() {
   }
 }
 
+export async function getByUserEmail(email: string) {
+  try {
+    const user = await UserService.getByEmail(email);
+    if (user) {
+      console.log("Usuário encontrado:", user);
+    } else {
+      console.log("Nenhum usuário encontrado com o e-mail fornecido.");
+    }
+  } catch (error) {
+    console.log("Erro ao buscar usuário por e-mail:", error);
+  }
+}
+
 export async function deleteUser(userId: number) {
   try {
     await UserService.delete(userId);
