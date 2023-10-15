@@ -31,7 +31,7 @@ class UserService{
     return user;
   }
 
-  async getAll(): Promise<PublicUser[]> {
+  async getAll(){
     const users = await prisma.user.findMany({
     select: {
       id: true,
@@ -39,14 +39,12 @@ class UserService{
       name: true,
       photo: true,
       role: true,
-      createdAt: true,
-      updatedAt: true,
     },
   });
   return users;
 }
 
-    async getByEmail(email: string): Promise<PublicUser | null> {
+    async getByEmail(email: string){
       const user = await prisma.user.findFirst({
     where: {
       email: email,
@@ -56,9 +54,7 @@ class UserService{
       email: true,
       name: true,
       photo: true,
-      role: true,
-      createdAt: true,
-      updatedAt: true,
+      role: true
     },
   });
   return user;
