@@ -29,6 +29,15 @@ class ArtistService{
         return artist;
     }
 
+    async getByID(idInput: number){
+        const artist = await prisma.artist.findUnique({
+            where: {
+                id: idInput,
+            }
+        });
+        return artist;
+    }
+
     //READ
     async getAll(){ 
         const artists = await prisma.artist.findMany();
