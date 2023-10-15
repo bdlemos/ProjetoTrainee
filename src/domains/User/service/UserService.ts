@@ -14,6 +14,7 @@ class UserService{
         });
         return user;
     }
+
   async update(body: User) {
     const user = await prisma.user.update({
         data: {
@@ -46,7 +47,7 @@ class UserService{
 }
 
     async getByEmail(email: string): Promise<PublicUser | null> {
-  const user = await prisma.user.findFirst({
+      const user = await prisma.user.findFirst({
     where: {
       email: email,
     },
