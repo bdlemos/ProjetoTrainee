@@ -19,12 +19,25 @@ export async function updateUser(data: User) {
   }
 }
 
-export async function listUsers() {
+export async function getAllUser() {
   try {
     const users = await UserService.getAll();
     console.log("Lista de usuários:", users);
   } catch (error) {
     console.log("Erro ao listar usuários:", error);
+  }
+}
+
+export async function getByUserEmail(email: string) {
+  try {
+    const user = await UserService.getByEmail(email);
+    if (user) {
+      console.log("Usuário encontrado:", user);
+    } else {
+      console.log("Nenhum usuário encontrado com o e-mail fornecido.");
+    }
+  } catch (error) {
+    console.log("Erro ao buscar usuário por e-mail:", error);
   }
 }
 

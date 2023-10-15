@@ -35,6 +35,15 @@ class UserService{
     return users;
   }
 
+    async getByEmail(email: string): Promise<User | null> {
+    return await prisma.user.findFirst({
+      where: {
+        email: email,
+      },
+    });
+  }
+}
+
   async delete(idInput: number) {
     const user = await prisma.user.delete({
       where: {
