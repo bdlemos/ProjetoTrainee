@@ -30,10 +30,20 @@ class UserService{
     return user;
   }
 
-  async getAll() {
-    const users = await prisma.user.findMany();
-    return users;
-  }
+  async getAll(): Promise<PublicUser[]> {
+    const users = await prisma.user.findMany({
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      photo: true,
+      role: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+  return users;
+}
 
     async getByEmail(email: string): Promise<PublicUser | null> {
   const user = await prisma.user.findFirst({
