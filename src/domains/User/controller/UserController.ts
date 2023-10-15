@@ -19,9 +19,9 @@ export async function updateUser(data: User) {
   }
 }
 
-export async function listUsers() {
+export async function getAllUser() {
   try {
-    const users = await UserService.list();
+    const users = await UserService.getAll();
     console.log("Lista de usuários:", users);
   } catch (error) {
     console.log("Erro ao listar usuários:", error);
