@@ -35,14 +35,24 @@ class UserService{
     return users;
   }
 
-    async getByEmail(email: string): Promise<User | null> {
-    return await prisma.user.findFirst({
-      where: {
-        email: email,
-      },
-    });
-  }
+    async getByEmail(email: string): Promise<PublicUser | null> {
+  const user = await prisma.user.findFirst({
+    where: {
+      email: email,
+    },
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      photo: true,
+      role: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+  return user;
 }
+
 
   async delete(idInput: number) {
     const user = await prisma.user.delete({
