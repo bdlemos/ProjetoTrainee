@@ -39,7 +39,7 @@ router.post('/create', async(req:Request, res:Response, next:NextFunction) => {
 	} catch (error) {
 		next(error);
 	}
-})
+});
 
 router.put('/update', async(req:Request, res:Response, next:NextFunction) => {
 	try {
