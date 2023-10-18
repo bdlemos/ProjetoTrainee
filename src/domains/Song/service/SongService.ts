@@ -56,7 +56,7 @@ class SongService{
 		return song;
 	}
 
-	async delete(idInput: number){
+	async remove(idInput: number){
 		const song = await prisma.song.delete({
 			where: {
 				id: idInput,                
@@ -68,7 +68,3 @@ class SongService{
 }
 
 export default new SongService;
-
-function getById(idInput: any, number: any) {
-	throw new Error('Function not implemented.');
-}

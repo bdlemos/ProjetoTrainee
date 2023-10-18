@@ -4,6 +4,62 @@ import { Router, Request, Response, NextFunction } from 'express';
 
 const router = Router();
 
+//ROTAS
+router.get('/', async(req:Request, res:Response, next:NextFunction) => {
+	try {
+		const songs = await SongService.getAll();
+		res.json(songs);
+	} catch (error) {
+		next(error);
+	}
+})
+
+router.get('/listByArtist', async(req:Request, res:Response, next:NextFunction) => {
+	try {
+		const songs = await SongService.getByArtist(req.body);
+		res.json(songs);
+	} catch (error) {
+		next(error);
+	}
+})
+
+router.get('/getById', async(req:Request, res:Response, next:NextFunction) => {
+	try {
+		const song = await SongService.getByID(req.body);
+		res.json(song);
+	} catch (error) {
+		next(error);
+	}
+})
+
+router.post('/create', async(req:Request, res:Response, next:NextFunction) => {
+	try {
+		await SongService.create(req.body);
+		res.json('Música adicionada com sucesso!');
+	} catch (error) {
+		next(error);
+	}
+})
+
+router.put('/update', async(req:Request, res:Response, next:NextFunction) => {
+	try {
+		await SongService.update(req.body);
+		res.json('Música atualizada com sucesso!');
+	} catch (error) {
+		next(error);
+	}
+})
+
+router.delete('/remove', async(req:Request, res:Response, next:NextFunction) => {
+	try {
+		await SongService.remove(req.body);
+		res.json('Música removida com sucesso!');
+	} catch (error) {
+		next(error);
+	}
+})
+
+//FUNÇÕES
 export async function addSong(data: Song){
 	try{
 		await SongService.create(data); 
@@ -48,9 +104,11 @@ export async function updateSong(data: Song){
 
 export async function removeSong(id: number){
 	try{
-		await SongService.delete(id); 
+		await SongService.remove(id); 
 		console.log('Música removida com sucesso!');
 	} catch(error){ 
 		console.log('Erro ao remover música.');
 	}
 }
+
+export default router;

@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import express, { Express } from 'express';
 import cors, { CorsOptions } from 'cors';
 import UserRouter from '../src/domains/User/controller/UserController';
+import SongRouter from '../src/domains/Song/controller/songController';
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use(express.urlencoded({
 	extended: true
 }));
 app.use('/api/users', UserRouter);
+app.use('/api/songs', SongRouter);
 
 export default app;
 

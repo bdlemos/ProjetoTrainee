@@ -4,6 +4,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 
 const router = Router();
 
+//ROTAS
 router.get('/', async(req:Request, res:Response, next:NextFunction) => {
 	try {
 		const users = await UserService.getAll();
@@ -31,6 +32,7 @@ router.post('/create', async(req:Request, res:Response, next:NextFunction) => {
 	}
 })
 
+//FUNÇÕES
 export async function getAllUser() {
 	try {
 		const users = await UserService.getAll();
