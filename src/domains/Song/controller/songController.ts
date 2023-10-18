@@ -1,6 +1,7 @@
 import { Song } from '@prisma/client';
 import SongService from '../service/SongService';
 
+
 export async function addSong(data: Song){
 	try{
 		await SongService.create(data); 

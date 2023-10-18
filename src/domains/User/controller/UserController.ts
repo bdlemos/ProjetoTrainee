@@ -1,5 +1,45 @@
 import { User } from "@prisma/client";
 import UserService from "../service/UserService";
+import { Router, Request, Response, NextFunction } from "express";
+
+const router = Router();
+
+router.get('/', async(req:Request, res:Response, next:NextFunction) => {
+  try {
+      const users = await UserService.getAll();
+      res.json(users);
+  } catch (error) {
+      next(error);
+    }
+})
+
+router.get('/:email', async(req:Request, res:Response, next:NextFunction) => {
+  try {
+      const users = await UserService.getByEmail(req.params.email);
+      res.json(users);
+  } catch (error) {
+      next(error);
+    }
+})
+
+router.post('/create', async(req:Request, res:Response, next:NextFunction) => {
+  try {
+      await UserService.create(req.body);
+      res.json('Usuário criado com sucesso!');
+  } catch (error) {
+      next(error);
+    }
+})
+
+export async function getAllUser() {
+  try {
+    const users = await UserService.getAll();
+    console.log("Lista de usuários:", users);
+  } catch (error) {
+    console.log("Erro ao listar usuários:", error);
+  }
+}
+
 
 export async function addUser(data: User) {
   try {
@@ -19,14 +59,6 @@ export async function updateUser(data: User) {
   }
 }
 
-export async function getAllUser() {
-  try {
-    const users = await UserService.getAll();
-    console.log("Lista de usuários:", users);
-  } catch (error) {
-    console.log("Erro ao listar usuários:", error);
-  }
-}
 
 export async function getByUserEmail(email: string) {
   try {
