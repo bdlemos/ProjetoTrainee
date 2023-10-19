@@ -14,19 +14,19 @@ router.get('/', async(req:Request, res:Response, next:NextFunction) => {
 	}
 })
 
-router.get('/listByArtist', async(req:Request, res:Response, next:NextFunction) => {
+router.get('/:id', async(req:Request, res:Response, next:NextFunction) => {
 	try {
-		const songs = await SongService.getByArtist(req.body);
-		res.json(songs);
+		const song = await SongService.getByID(+req.params.id);
+		res.json(song);
 	} catch (error) {
 		next(error);
 	}
 })
 
-router.get('/getById', async(req:Request, res:Response, next:NextFunction) => {
+router.get('/artist/:artistId', async(req:Request, res:Response, next:NextFunction) => {
 	try {
-		const song = await SongService.getByID(req.body);
-		res.json(song);
+		const songs = await SongService.getByArtist(+req.params.artistId);
+		res.json(songs);
 	} catch (error) {
 		next(error);
 	}
