@@ -41,14 +41,16 @@ router.post('/create', async(req:Request, res:Response, next:NextFunction) => {
 	}
 });
 
-router.put('/update', async(req:Request, res:Response, next:NextFunction) => {
+router.put('/update/:id', async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		await SongService.update(req.body);
+		const id = +req.params.id;
+		const updateData = req.body;
+		const song = await SongService.update(id, updateData);
 		res.json('Música atualizada com sucesso!');
 	} catch (error) {
 		next(error);
 	}
-})
+});
 
 router.delete('/remove/:id', async(req:Request, res:Response, next:NextFunction) => {
 	try {
@@ -93,11 +95,11 @@ export async function getSongsByArtist(artistId: number){
 	}
 }
 
-export async function updateSong(data: Song){
-	try{
-		await SongService.update(data); 
+export async function updateSong(id: number, updateData: Partial<Song>) {
+	try {
+		await SongService.update(id, updateData);
 		console.log('Música atualizada com sucesso!');
-	} catch(error){ 
+	} catch (error) {
 		console.log('Erro ao atualizar música:', error);
 	}
 }

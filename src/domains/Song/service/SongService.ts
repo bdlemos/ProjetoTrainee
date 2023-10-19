@@ -15,19 +15,19 @@ class SongService{
 		return song;
 	}
 
-	async update(body: Song){	
+	async update(id: number, updateData: Partial<Song>) {
 		const song = await prisma.song.update({
 			data: {
-				name: body.name, 
-				genre: body.genre, 
-				album: body.album,
-				artistId: +body.artistId,
+				name: updateData.name,
+				genre: updateData.genre,
+				album: updateData.album,
+				artistId: updateData.artistId,
 			},
 			where: {
-				id: +body.id, 
+				id: id,
 			},
 		});
-
+	
 		return song;
 	}
 
