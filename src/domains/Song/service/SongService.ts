@@ -8,7 +8,7 @@ class SongService{
 				name: body.name,
 				genre: body.genre,
 				album: body.album,
-				artistId: body.artistId,
+				artistId: +body.artistId,
 			}
 		});
 
@@ -21,10 +21,10 @@ class SongService{
 				name: body.name, 
 				genre: body.genre, 
 				album: body.album,
-				artistId: body.artistId,
+				artistId: +body.artistId,
 			},
 			where: {
-				id: body.id, 
+				id: +body.id, 
 			},
 		});
 
