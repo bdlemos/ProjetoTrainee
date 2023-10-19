@@ -50,9 +50,9 @@ router.put('/update', async(req:Request, res:Response, next:NextFunction) => {
 	}
 })
 
-router.delete('/remove', async(req:Request, res:Response, next:NextFunction) => {
+router.delete('/remove/:id', async(req:Request, res:Response, next:NextFunction) => {
 	try {
-		await SongService.remove(req.body);
+		await SongService.remove(+req.params.id);
 		res.json('Música removida com sucesso!');
 	} catch (error) {
 		next(error);
