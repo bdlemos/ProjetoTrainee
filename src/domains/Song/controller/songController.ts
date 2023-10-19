@@ -12,7 +12,7 @@ router.get('/', async(req:Request, res:Response, next:NextFunction) => {
 	} catch (error) {
 		next(error);
 	}
-})
+});
 
 router.get('/:id', async(req:Request, res:Response, next:NextFunction) => {
 	try {
@@ -21,7 +21,7 @@ router.get('/:id', async(req:Request, res:Response, next:NextFunction) => {
 	} catch (error) {
 		next(error);
 	}
-})
+});
 
 router.get('/artist/:artistId', async(req:Request, res:Response, next:NextFunction) => {
 	try {
@@ -30,7 +30,7 @@ router.get('/artist/:artistId', async(req:Request, res:Response, next:NextFuncti
 	} catch (error) {
 		next(error);
 	}
-})
+});
 
 router.post('/create', async(req:Request, res:Response, next:NextFunction) => {
 	try {
@@ -48,7 +48,7 @@ router.put('/update', async(req:Request, res:Response, next:NextFunction) => {
 	} catch (error) {
 		next(error);
 	}
-})
+});
 
 router.delete('/remove', async(req:Request, res:Response, next:NextFunction) => {
 	try {
@@ -57,7 +57,7 @@ router.delete('/remove', async(req:Request, res:Response, next:NextFunction) => 
 	} catch (error) {
 		next(error);
 	}
-})
+});
 
 //FUNÇÕES
 export async function addSong(data: Song){
