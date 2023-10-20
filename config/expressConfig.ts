@@ -3,6 +3,7 @@ import express, { Express } from 'express';
 import cors, { CorsOptions } from 'cors';
 import UserRouter from '../src/domains/User/controller/UserController';
 import SongRouter from '../src/domains/Song/controller/songController';
+import ArtistRouter from '../src/domains/Artist/controller/ArtistController';
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(express.urlencoded({
 }));
 app.use('/api/users', UserRouter);
 app.use('/api/songs', SongRouter);
+app.use('/api/artists', ArtistRouter);
 
 export default app;
 
