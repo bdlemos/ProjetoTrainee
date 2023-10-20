@@ -1,47 +1,69 @@
 import { Artist } from '@prisma/client';
 import ArtistService from '../service/ArtistService';
+import { Router, Request, Response, NextFunction } from 'express';
+import { create } from 'domain';
 
-export async function addArtist(data: Artist){
-	try{
-		await ArtistService.create(data); 
-		console.log('Artista adicionado com sucesso!');
-	} catch(error){
-		console.log('Erro ao adicionar artista.');
-	}
-}
+const router = Router();
 
-export async function getArtistByID(idInput: number){
-	try{
-		const artist = await ArtistService.getByID(idInput); 
-		console.log('O artista é: ', artist);
-	} catch(error){ 
-		console.log('Erro ao buscar artista.');
-	}
-}
-
-export async function getAllArtists(){
+//ROTAS
+router.get('/', async(req:Request, res:Response, next:NextFunction) => {
 	try{
 		const Artists = await ArtistService.getAll(); 
-		console.log(Artists);
+		res.json(Artists);
 	} catch(error){ 
-		console.log('Erro ao imprimir artistas.');
+		next(error);
 	}
-}
+})
 
-export async function updateArtist(data: Artist){
-	try{
-		await ArtistService.update(data); 
-		console.log('Artista atualizado com sucesso!');
-	} catch(error){ 
-		console.log('Erro ao atualizar artista:', error);
+router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		const artist = await ArtistService.getByID(parseInt(req.params.id)); 
+		res.json(artist);
+	} catch (error) { 
+		next(error);
 	}
-}
+})
 
-export async function removeArtist(id: number){
+router.post('/create', async (req: Request, res: Response, next: NextFunction) => {
 	try{
-		await ArtistService.delete(id); 
-		console.log('Artista removido com sucesso!');
-	} catch(error){ 
-		console.log('Erro ao remover artista.');
+		const createData = {
+			id: +req.params.id,
+			name: req.body.name,
+			streams: +req.body.streams,
+			photo: req.body.photo
+		} as Artist;
+		await ArtistService.create(createData); 
+		res.json('Artista adicionado com sucesso!');
+	} catch(error){
+		next(error);
 	}
-}
+})
+
+
+
+
+router.put('/update/:id', async (req: Request, res: Response, next: NextFunction) => {
+	try{
+		const updateData = {
+			id: +req.params.id,
+			name: req.body.name,
+			streams: +req.body.streams,
+			photo: req.body.photo
+		} as Artist;
+		await ArtistService.update(updateData); 
+		res.json('Artista atualizado com sucesso!');
+	} catch(error){ 
+		next(error);
+	}
+})
+
+router.delete('/remove/:id', async (req: Request, res: Response, next: NextFunction) =>{
+	try{
+		await ArtistService.delete(+req.params.id); 
+		res.json('Artista removido com sucesso!');
+	} catch(error){ 
+		next(error);
+	}
+})
+
+export default router;
