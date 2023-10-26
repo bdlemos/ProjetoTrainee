@@ -32,6 +32,32 @@ router.post('/create', async(req:Request, res:Response, next:NextFunction) => {
 	}
 })
 
+router.put('/update/:id', async(req:Request, res:Response, next:NextFunction) => {
+	try {
+		const updateData = {
+			email: req.body.email,
+			id: +req.params.id,
+			name: req.body.name,
+			password: req.body.password,
+			photo: req.body.photo,
+			role: req.body.role
+		} as User;
+		await UserService.update(updateData);
+		res.json('Usuário atualizado com sucesso!');
+	} catch (error) {
+		next(error);
+	}
+
+})
+
+router.delete('/remove/:id', async(req:Request, res:Response, next:NextFunction) => {
+	try {
+		await UserService.delete(+req.params.id);
+		res.json('Usuário excluído com sucesso!');
+	} catch (error) {
+		next(error);
+	}
+})
 //FUNÇÕES
 export async function getAllUser() {
 	try {
