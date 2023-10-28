@@ -27,35 +27,39 @@ router.get('/:email', async(req:Request, res:Response, next:NextFunction) => {
 	}
 });
 
-router.post('/create', async(req:Request, res:Response, next:NextFunction) => {
-	try {
-		await UserService.create(req.body);
-		res.status(statusCodes.CREATED).json('Usuário criado com sucesso!');
+router.post('/create',
+	checkRole('admin'),
+	async(req:Request, res:Response, next:NextFunction) => {
+		try {
+			await UserService.create(req.body);
+			res.status(statusCodes.CREATED).json('Usuário criado com sucesso!');
 
-	} catch (error) {
-		res.status(statusCodes.UNAUTHORIZED);
-		next(error);
-	}
-});
+		} catch (error) {
+			res.status(statusCodes.UNAUTHORIZED);
+			next(error);
+		}
+	});
 
-router.put('/update/:id', async(req:Request, res:Response, next:NextFunction) => {
-	try {
-		const updateData = {
-			email: req.body.email,
-			id: +req.params.id,
-			name: req.body.name,
-			password: req.body.password,
-			photo: req.body.photo,
-			role: req.body.role
-		} as User;
-		await UserService.update(updateData);
-		res.status(statusCodes.ACCEPTED).json('Usuário atualizado com sucesso!');
-	} catch (error) {
-		res.status(statusCodes.NOT_FOUND);
-		next(error);
-	}
+router.put('/update/:id',
+	checkRole('admin'),
+	async(req:Request, res:Response, next:NextFunction) => {
+		try {
+			const updateData = {
+				email: req.body.email,
+				id: +req.params.id,
+				name: req.body.name,
+				password: req.body.password,
+				photo: req.body.photo,
+				role: req.body.role
+			} as User;
+			await UserService.update(updateData);
+			res.status(statusCodes.ACCEPTED).json('Usuário atualizado com sucesso!');
+		} catch (error) {
+			res.status(statusCodes.NOT_FOUND);
+			next(error);
+		}
 
-});
+	});
 
 router.delete('/remove/:id', 
 	checkRole('admin'),
