@@ -1,15 +1,10 @@
 import prisma from '../../../../config/client';
 import { Song } from '@prisma/client';
-import statusCodes from '../../../../utils/constants/statusCode';
 import { checkRole } from '../../../middlewares/checkRole';
 import { PermissionError } from '../../../../errors/PermissionError';
 
 class SongService{
 	async create(body: Song){
-		if(checkRole('ADMIN')){
-			throw new PermissionError('Você não possui pemirssão para apagar uma música.')
-		};
-		
 		const song = await prisma.song.create({
 			data: {
 				name: body.name,
@@ -22,11 +17,7 @@ class SongService{
 		return song;
 	}
 
-	async update(id: number, body: Song) {
-		if(checkRole('ADMIN')){
-			throw new PermissionError('Você não possui pemirssão para apagar uma música.')
-		};
-
+	async update(id: number, body: Song){
 		const song = await prisma.song.update({
 			where: {
 				id: id,
@@ -68,10 +59,6 @@ class SongService{
 	}
 
 	async remove(idInput: number){
-		if(checkRole('ADMIN')){
-			throw new PermissionError('Você não possui pemirssão para apagar uma música.')
-		};
-
 		const song = await prisma.song.delete({
 			where: {
 				id: idInput,                
