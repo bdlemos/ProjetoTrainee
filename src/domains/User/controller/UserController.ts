@@ -1,6 +1,8 @@
 import { User } from '@prisma/client';
 import UserService from '../service/UserService';
 import { Router, Request, Response, NextFunction } from 'express';
+import statusCodes from '../../../../utils/constants/statusCode';
+import checkRole from '../../middlewares/checkRole';
 
 const router = Router();
 
@@ -8,29 +10,33 @@ const router = Router();
 router.get('/', async(req:Request, res:Response, next:NextFunction) => {
 	try {
 		const users = await UserService.getAll();
-		res.json(users);
+		res.status(statusCodes.SUCCESS).json(users);
 	} catch (error) {
+		res.status(statusCodes.NOT_FOUND);
 		next(error);
 	}
-})
+});
 
 router.get('/:email', async(req:Request, res:Response, next:NextFunction) => {
 	try {
 		const users = await UserService.getByEmail(req.params.email);
-		res.json(users);
+		res.status(statusCodes.SUCCESS).json(users);
 	} catch (error) {
+		res.status(statusCodes.NOT_FOUND);
 		next(error);
 	}
-})
+});
 
 router.post('/create', async(req:Request, res:Response, next:NextFunction) => {
 	try {
 		await UserService.create(req.body);
-		res.json('Usuário criado com sucesso!');
+		res.status(statusCodes.CREATED).json('Usuário criado com sucesso!');
+
 	} catch (error) {
+		res.status(statusCodes.UNAUTHORIZED);
 		next(error);
 	}
-})
+});
 
 router.put('/update/:id', async(req:Request, res:Response, next:NextFunction) => {
 	try {
@@ -43,22 +49,27 @@ router.put('/update/:id', async(req:Request, res:Response, next:NextFunction) =>
 			role: req.body.role
 		} as User;
 		await UserService.update(updateData);
-		res.json('Usuário atualizado com sucesso!');
+		res.status(statusCodes.ACCEPTED).json('Usuário atualizado com sucesso!');
 	} catch (error) {
+		res.status(statusCodes.NOT_FOUND);
 		next(error);
 	}
 
-})
+});
 
-router.delete('/remove/:id', async(req:Request, res:Response, next:NextFunction) => {
-	try {
-		await UserService.delete(+req.params.id);
-		res.json('Usuário excluído com sucesso!');
-	} catch (error) {
-		next(error);
-	}
-})
+router.delete('/remove/:id', 
+	checkRole('admin'),
+	async(req:Request, res:Response, next:NextFunction) => {
+		try {
+			await UserService.delete(+req.params.id);
+			res.status(statusCodes.ACCEPTED).json('Usuário excluído com sucesso!');
+		} catch (error) {
+			res.status(statusCodes.NOT_FOUND);
+			next(error);
+		}});
+
 //FUNÇÕES
+
 export async function getAllUser() {
 	try {
 		const users = await UserService.getAll();
