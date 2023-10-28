@@ -2,7 +2,7 @@ import { User } from '@prisma/client';
 import UserService from '../service/UserService';
 import { Router, Request, Response, NextFunction } from 'express';
 import statusCodes from '../../../../utils/constants/statusCode';
-import checkRole from '../../middlewares/checkRole';
+import { checkRole } from '../../../middlewares/checkRole';
 
 const router = Router();
 

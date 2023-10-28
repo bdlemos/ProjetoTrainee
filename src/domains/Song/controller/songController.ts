@@ -1,10 +1,8 @@
-import { Song } from '@prisma/client';
 import SongService from '../service/SongService';
 import { Router, Request, Response, NextFunction } from 'express';
 
 const router = Router();
 
-//ROTAS
 router.get('/', async(req:Request, res:Response, next:NextFunction) => {
 	try {
 		const songs = await SongService.getAll();
@@ -60,57 +58,5 @@ router.delete('/remove/:id', async(req:Request, res:Response, next:NextFunction)
 		next(error);
 	}
 })
-
-//FUNÇÕES
-export async function addSong(data: Song){
-	try{
-		await SongService.create(data); 
-		console.log('Música adicionada com sucesso!');
-	} catch(error){ 
-		console.log('Erro ao adicionar música.');
-	}
-}
-
-export async function getAllSongs(){
-	try{
-		await SongService.getAll(); 
-	} catch(error){ 
-		console.log('Erro ao bucar músicas.');
-	}
-}
-
-export async function getSongByID(songId: number){
-	try{
-		const song = await SongService.getByID(songId); 
-	} catch(error){ 
-		console.log('Erro ao buscar música.');
-	}
-}
-
-export async function getSongsByArtist(artistId: number){
-	try{
-		const songs = await SongService.getByArtist(artistId); 
-	} catch(error){ 
-		console.log('Erro ao buscar músicas.');
-	}
-}
-
-export async function updateSong(id: number, updateData: Partial<Song>) {
-	try {
-		await SongService.update(id, updateData);
-		console.log('Música atualizada com sucesso!');
-	} catch (error) {
-		console.log('Erro ao atualizar música:', error);
-	}
-}
-
-export async function removeSong(id: number){
-	try{
-		await SongService.remove(id); 
-		console.log('Música removida com sucesso!');
-	} catch(error){ 
-		console.log('Erro ao remover música.');
-	}
-}
 
 export default router;
