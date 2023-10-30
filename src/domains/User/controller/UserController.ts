@@ -3,10 +3,16 @@ import UserService from '../service/UserService';
 import { Router, Request, Response, NextFunction } from 'express';
 import statusCodes from '../../../../utils/constants/statusCode';
 import { checkRole } from '../../../middlewares/checkRole';
+import { PermissionError } from '../../../../errors/PermissionError';
+import { LoginError } from '../../../../errors/LoginError';
+import { notLogged,loginMiddleware, verifyJWT, logoutMiddleware } from '../../../middlewares/authentication';
 
 const router = Router();
 
 //ROTAS
+router.post('/login', notLogged, loginMiddleware);
+router.post('/logout', logoutMiddleware);
+
 router.get('/', async(req:Request, res:Response, next:NextFunction) => {
 	try {
 		const users = await UserService.getAll();
@@ -28,9 +34,13 @@ router.get('/:email', async(req:Request, res:Response, next:NextFunction) => {
 });
 
 router.post('/create',
-	checkRole('admin'),
 	async(req:Request, res:Response, next:NextFunction) => {
 		try {
+			const user = await UserService.getByEmail(req.body.email);
+			if (user) {
+				res.status(statusCodes.BAD_REQUEST).json('E-mail já cadastrado!');
+				throw new PermissionError('E-mail já cadastrado!');
+			}
 			await UserService.create(req.body);
 			res.status(statusCodes.CREATED).json('Usuário criado com sucesso!');
 
@@ -41,9 +51,13 @@ router.post('/create',
 	});
 
 router.put('/update/:id',
+	verifyJWT,
 	checkRole('admin'),
 	async(req:Request, res:Response, next:NextFunction) => {
 		try {
+			if (req.user.id !== +req.params.id) {
+				throw new PermissionError('Você não tem permissão para atualizar outro usuário!');
+			}
 			const updateData = {
 				email: req.body.email,
 				id: +req.params.id,

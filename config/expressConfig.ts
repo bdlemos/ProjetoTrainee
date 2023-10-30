@@ -13,6 +13,8 @@ const options : CorsOptions = {
 	credentials: true,
 	origin: process.env.APP_URL
 };
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
 app.use(cors(options));
 app.use(express.json());
