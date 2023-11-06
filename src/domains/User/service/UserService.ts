@@ -2,7 +2,6 @@ import prisma from '../../../../config/client';
 import { User } from '@prisma/client';
 import bcrypt from 'bcrypt';
 
-
 class UserService{
 
 	async encryptPassword(password: string): Promise<string> {
